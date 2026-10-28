@@ -1,3 +1,4 @@
+import json
 """CPS 310 DevOps Fundamentals starter project.
 
 This program reads a small support-ticket data file and prints a summary.
@@ -6,9 +7,7 @@ The project intentionally needs some release-readiness improvements.
 
 from tabulate import tabulate
 
-DATA_FILE = "tickets.txt"
-REPORT_TITLE = "Support Ticket Summary"
-HIGH_PRIORITY_THRESHOLD = 4
+CONFIG_FILE = "config.json"
 
 
 def load_tickets(filename):
@@ -84,19 +83,32 @@ def display_tickets(tickets):
     print(tabulate(rows, headers=["Ticket", "Status", "Priority"]))
 
 
+def load_config(filename):
+    """Load project configuration from a JSON file."""
+    with open(filename, encoding="utf-8") as file:
+        return json.load(file)
+
+
 def main():
     """Run the support-ticket report."""
-    tickets = load_tickets(DATA_FILE)
-    summary = build_summary(tickets, HIGH_PRIORITY_THRESHOLD)
+    config = load_config(CONFIG_FILE)
 
-    print(REPORT_TITLE)
-    print("-" * len(REPORT_TITLE))
+    tickets = load_tickets(config["data_file"])
+
+    summary = build_summary(
+        tickets,
+        config["high_priority_threshold"]
+    )
+
+    report_title = config["report_title"]
+
+    print(report_title)
+    print("-" * len(report_title))
     display_tickets(tickets)
     print()
     print(f"Total tickets: {summary['total']}")
     print(f"Open tickets: {summary['open']}")
     print(f"High-priority tickets: {summary['high_priority']}")
-
 
 if __name__ == "__main__":
     main()
