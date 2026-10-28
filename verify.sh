@@ -1,19 +1,25 @@
-#!/bin/zsh
-# CPS 310 verification script scaffold for macOS.
-# Complete the TODO sections during ICA08.
+#!/bin/bash
 
-echo "Running project verification..."
+# CPS 310 ICA08 - Release Verification Script
 
-# TODO: Run the complete pytest suite with verbose output.
+# Run the full pytest suite
+echo "Running automated tests..."
+python3 -m pytest -v
 
-echo ""
-echo "Checking required files..."
+# Check for requirements.txt
+if [ -f "requirements.txt" ]; then
+    echo "requirements.txt found."
+else
+    echo "requirements.txt is missing."
+fi
 
-# TODO: Check whether requirements.txt exists and print a clear message.
+# Check for config.json
+if [ -f "config.json" ]; then
+    echo "config.json found."
+else
+    echo "config.json is missing."
+fi
 
-# TODO: Check whether config.json exists and print a clear message.
-
-echo ""
-echo "Checking Git status..."
-
-# TODO: Display compact Git status.
+# Display Git status
+echo "Git status:"
+git status --short
